@@ -10,7 +10,7 @@ from flask_swagger_ui import get_swaggerui_blueprint
 #load_dotenv(dotenv_path=dotenv_path)
 
 def get_db_connection():
-    host = host
+    host = os.getenv('HOST_NAME')
     usuario = os.getenv('USER_NAME')
     senha = os.getenv('PWD_NAME')
     database = os.getenv('DB_NAME')
