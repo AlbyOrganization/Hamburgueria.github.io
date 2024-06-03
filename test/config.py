@@ -142,22 +142,31 @@ def cadastro():
         endereco = request.form['endereco']
         password = request.form['senha']
 
-        connection = get_db_connection()
-        cursor = connection.cursor()
-        cursor.execute("INSERT INTO Cadastro (cpf, email, telefone, endereco, senha) VALUES (%s, %s, %s, %s, %s)", (cpf, email, telefone, endereco, password))
-        connection.commit()
+        try:
+            connection = get_db_connection()
+            cursor = connection.cursor()
 
-        # Obtém o idCadastro inserido
-        idCadastro = cursor.lastrowid
+            # Insert into Cadastro
+            cursor.execute(
+                "INSERT INTO Cadastro (cpf, email, telefone, endereco, senha) VALUES (%s, %s, %s, %s, %s) RETURNING idCadastro",
+                (cpf, email, telefone, endereco, password)
+            )
+            idCadastro = cursor.fetchone()[0]
+            connection.commit()
 
-        # Inserindo o cliente associado ao idCadastro
-        cursor.execute("INSERT INTO Cliente (idCadastro) VALUES (%s)", (idCadastro,))
-        connection.commit()
+            # Insert into Cliente using the returned idCadastro
+            cursor.execute("INSERT INTO Cliente (idCadastro) VALUES (%s)", (idCadastro,))
+            connection.commit()
 
-        cursor.close()
-        connection.close()
+            cursor.close()
+            connection.close()
 
-        return redirect(url_for('login'))
+            return redirect(url_for('login'))
+
+        except psycopg2.Error as e:
+            # Log the error for debugging
+            print(f"Database error: {e}")
+            return render_template('cadastro.html', error="Erro ao conectar ao banco de dados")
 
     return render_template('cadastro.html')
 
