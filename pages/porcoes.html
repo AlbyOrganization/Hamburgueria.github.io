@@ -35,7 +35,7 @@
 
         <div class="conteiner-main">
             <div class="coluna1">
-                {% for porcao %}
+                {% for porcao in porcoes %}
                 <label class="item-checkbox-label">
                     <span>{{ porcao.nomeItem }}</span>
                     <input type="checkbox" name="pedidos" value="{{ porcao.nomeItem }}" class="item-checkbox">
