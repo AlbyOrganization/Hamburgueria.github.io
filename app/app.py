@@ -1,8 +1,34 @@
-from flask import Flask, render_template, request, redirect, url_for, session 
+from flask import Flask, render_template, request, redirect, url_for, session
 import os
 import psycopg2
-from dotenv import load_dotenv 
+import psycopg2.extras
+from dotenv import load_dotenv
 from pathlib import Path
+
+dotenv_path = Path('environment/.env')
+load_dotenv(dotenv_path=dotenv_path)
+
+host = os.getenv('HOST_NAME')
+usuario = os.getenv('USER_NAME')
+senha = os.getenv('PWD_NAME')
+database = os.getenv('DB_NAME')
+
+print(f"Host: {host}")
+print(f"Usuário: {usuario}")
+print(f"Senha: {'*****' if senha else 'None'}")
+print(f"Database: {database}")
+
+try:
+    db_connection = psycopg2.connect(
+        host=host,
+        user=usuario,
+        password=senha,
+        database=database
+    )
+    print(db_connection, 'Conectado com sucesso')
+
+except psycopg2.Error as erro:
+    print("Algo deu errado:", erro)
 
 def get_db_connection():
     host = os.getenv('HOST_NAME')
@@ -17,7 +43,7 @@ def get_db_connection():
         database=database
     )
 
-app = Flask(__name__, static_folder='../assets',template_folder='../pages')
+app = Flask(__name__, static_folder='../assets', template_folder='../pages')
 app.secret_key = os.getenv('SECRET_KEY', os.urandom(24))
 
 @app.route('/')
@@ -31,7 +57,7 @@ def index():
 def lanche():
     print("Entrou na rota /lanche")
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute("SELECT e.nomeItem, c.preco FROM Estoque e INNER JOIN Cardapio c ON e.idItem = c.idItem WHERE e.tipoItem = 'lanche'")
     lanches = cursor.fetchall()
     cursor.close()
@@ -39,14 +65,29 @@ def lanche():
     
     return render_template('lanches.html', lanches=lanches)
 
-
 @app.route('/bebidas')
 def bebidas():
-    return render_template('bebidas.html')
+    print("Entrou na rota /bebidas")
+    connection = get_db_connection()
+    cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute("SELECT e.nomeItem, c.preco FROM Estoque e INNER JOIN Cardapio c ON e.idItem = c.idItem WHERE e.tipoItem = 'bebida'")
+    bebidas = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    
+    return render_template('bebidas.html', bebidas=bebidas)
 
 @app.route('/porcoes')
 def porcoes():
-    return render_template('porcoes.html')
+    print("Entrou na rota /porcoes")
+    connection = get_db_connection()
+    cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute("SELECT e.nomeItem, c.preco FROM Estoque e INNER JOIN Cardapio c ON e.idItem = c.idItem WHERE e.tipoItem = 'porção'")
+    porcoes = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    
+    return render_template('porcoes.html', porcoes=porcoes)
 
 @app.route('/cardapio')
 def cardapio():
@@ -54,27 +95,35 @@ def cardapio():
 
 @app.route('/pagamento', methods=['POST', 'GET'])
 def pagamento():
-     # Recebe os dados do formulário
-    nomeLanches = request.form.getlist('pedidos')
-    quantidades = request.form.getlist('quantidade')
+    if request.method == 'POST':
+        # Recebe os dados do formulário
+        nomePorcoes = request.form.getlist('pedidos')
+        quantidades = request.form.getlist('quantidades')
 
+        # Adiciona as porções selecionadas na tabela de pedidos
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        for nomePorcao, quantidade in zip(nomePorcoes, quantidades):
+            cursor.execute("INSERT INTO Pedido (idCliente, itemPed, valTotal, dataHoraPed) VALUES (%s, %s, %s, NOW())", (session['idCliente'], nomePorcao, quantidade))
+            connection.commit()
+        cursor.close()
+        connection.close()
 
-    # Adiciona o lanche selecionado na tabela de pedidos (exemplo)
-    connection = get_db_connection()
-    cursor = connection.cursor()
-    for nomeLanche, quantidade in zip(nomeLanches, quantidades):
-        cursor.execute("INSERT INTO Pedido (idCliente, itemPed, valTotal, dataHoraPed) VALUES (%s, %s, %s, NOW())", (session['idCliente'], nomeLanche, quantidade, ))
-        connection.commit()
-   # for nomeLanche in nomeLanches:
-    #    cursor.execute("INSERT INTO Pedido (nome_do_pedido) VALUES (%s)", (nomeLanche,))
-     #   connection.commit()
-    #for quantidade in quantidades:
-      #  cursor.execute("INSERT INTO Pedido (quantidade) VALUES (%s)", (quantidade,))
-       # connection.commit()
-    cursor.close()
-    connection.close()
+        # Obter os itens do pedido do cliente
+        connection = get_db_connection()
+        cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute("SELECT itemPed, valTotal FROM Pedido WHERE idCliente = %s", (session['idCliente'],))
+        pedidos = cursor.fetchall()
+        cursor.close()
+        connection.close()
 
-    return render_template('index.pg7.html')
+        # Calcular o valor total
+        valor_total = sum([pedido['valTotal'] for pedido in pedidos])
+
+        return render_template('pagamento.html', pedidos=pedidos, valor_total=valor_total)
+
+    # Se o método for GET, renderiza a página de pagamento normalmente
+    return render_template('forma_de_pagamento.html')
 
 @app.route('/pagamento-bem-sucedido')
 def pagamentosucesso():
@@ -93,28 +142,37 @@ def cadastro():
         endereco = request.form['endereco']
         password = request.form['senha']
 
-        connection = get_db_connection()
-        cursor = connection.cursor()
-        cursor.execute("INSERT INTO Cadastro (cpf, email, telefone, endereco, senha) VALUES (%s, %s, %s, %s, %s)", (cpf, email, telefone, endereco, password))
-        connection.commit()
+        try:
+            connection = get_db_connection()
+            cursor = connection.cursor()
 
-        # Obtém o idCadastro inserido
-        idCadastro = cursor.lastrowid
+            # Insert into Cadastro
+            cursor.execute(
+                "INSERT INTO Cadastro (cpf, email, telefone, endereco, senha) VALUES (%s, %s, %s, %s, %s) RETURNING idCadastro",
+                (cpf, email, telefone, endereco, password)
+            )
+            idCadastro = cursor.fetchone()[0]
+            connection.commit()
 
-        # Inserindo o cliente associado ao idCadastro
-        cursor.execute("INSERT INTO Cliente (idCadastro) VALUES (%s)", (idCadastro,))
-        connection.commit()
+            # Insert into Cliente using the returned idCadastro
+            cursor.execute("INSERT INTO Cliente (idCadastro) VALUES (%s)", (idCadastro,))
+            connection.commit()
 
-        cursor.close()
-        connection.close()
+            cursor.close()
+            connection.close()
 
-        return redirect(url_for('login'))
+            return redirect(url_for('login'))
+
+        except psycopg2.Error as e:
+            # Log the error for debugging
+            print(f"Database error: {e}")
+            return render_template('cadastro.html', error="Erro ao conectar ao banco de dados")
 
     return render_template('cadastro.html')
 
 def verify_credentials(username, password):
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute("SELECT * FROM Cadastro WHERE email = %s AND senha = %s", (username, password))
     user = cursor.fetchone()
     cursor.close()
@@ -143,11 +201,6 @@ def login():
     
     return render_template('login.html')
 
-@app.route('/logout', methods=['GET'])
-def logout():
-    session.clear()  # Limpa a sessão
-    return 'Logout efetuado com sucesso'
-
 @app.route('/alterar-cardapio', methods=['GET', 'POST'])
 def alterar_cardapio():  
     if request.method == 'POST':
@@ -166,31 +219,22 @@ def alterar_cardapio():
             connection = get_db_connection()
             cursor = connection.cursor()
 
-            # Obter o idItem correspondente ao código fornecido
-            cursor.execute("SELECT idItem FROM Cardapio WHERE idItem = %s", (codigo,))
-            row = cursor.fetchone()
-            if row:
-                id_item = row[0]
+            # Atualizar o cardápio
+            cursor.execute("UPDATE Cardapio SET preco = %s WHERE idCardapio = %s", (preco, codigo))
+            connection.commit()
 
-                # Atualizar o cardápio
-                cursor.execute("UPDATE Cardapio SET preco = %s WHERE idItem = %s", (preco, codigo))
-                connection.commit()
+            # Atualizar o estoque
+            cursor.execute("UPDATE Estoque SET nomeItem = %s, tipoItem = %s WHERE idItem = %s", (nome_lanche, classificacao, codigo))
+            connection.commit()
 
-                # Atualizar o estoque
-                cursor.execute("UPDATE Estoque SET nomeItem = %s, preco = %s WHERE idItem = %s, tipoItem = %s", (nome_lanche, preco, id_item, classificacao))
-                connection.commit()
+            # Fechar conexão e cursor
+            cursor.close()
+            connection.close()
 
-                # Fechar conexão e cursor
-                cursor.close()
-                connection.close()
+            # Redirecionar para a página de sucesso
+            return render_template('informacoes_salvas.html')
 
-                # Redirecionar para a página de sucesso
-                return render_template('informacoes_salvas.html')
-            else:
-                # Se o código não corresponder a nenhum registro, renderize o template com uma mensagem de erro
-                return render_template('alterar_cardapio.html', error="Código inválido")
-
-        except mysql.connector.Error as e:
+        except psycopg2.Error as e:
             # Em caso de erro, renderize o template com uma mensagem de erro genérica
             return render_template('alterar_cardapio.html', error="Erro ao conectar ao banco de dados")
 
@@ -199,8 +243,13 @@ def alterar_cardapio():
 
 @app.route('/informacoes_salvas')
 def informacoes_salvas():
-    return render_template('informacoes_salvas.html')
+    if request.method == 'POST':
 
+        # Redirecionamento após o processamento bem-sucedido
+        return redirect(url_for('informacoes_salvas'))
+
+    # Se o método for GET, apenas renderize o template
+    return render_template('alterar_cardapio.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
