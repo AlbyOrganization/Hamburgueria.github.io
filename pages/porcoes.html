@@ -37,9 +37,9 @@
             <div class="coluna1">
                 {% for porcao in porcoes %}
                 <label class="item-checkbox-label">
-                    <span>{{ porcao.nomeItem }}</span>
-                    <input type="checkbox" name="pedidos" value="{{ porcao.nomeItem }}" class="item-checkbox">
-                    <input type="number" name="quantidades" id="quantidades" class="qtd" placeholder="Quantidade" min="1">
+                    <span>{{ porcao[0] }} custa R${{ porcao[1] }}</span>
+                    <input type="checkbox" name="pedidos" value="{{ porcao[0] }}" class="item-checkbox">
+                    <input type="number" name="quantidades" id="quantidades" class="qtd" placeholder="Quantidade" min="1" value="{{ porcao[2] }}">
                 </label>
                 {% endfor %}
             </div>

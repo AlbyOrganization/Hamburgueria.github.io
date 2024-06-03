@@ -71,13 +71,32 @@ def bebidas():
     print("Entrou na rota /bebidas")
     connection = get_db_connection()
     cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cursor.execute("SELECT e.nomeItem, c.preco FROM Estoque e INNER JOIN Cardapio c ON e.idItem = c.idItem WHERE e.tipoItem = 'bebida'")
+    
+    # Verificar todos os itens no estoque
+    cursor.execute("SELECT * FROM Estoque")
+    estoque_todos = cursor.fetchall()
+    print("Todos os Itens no Estoque:", estoque_todos)
+    
+    # Verificar se há itens no estoque com tipo 'bebida'
+    cursor.execute("SELECT * FROM Estoque WHERE tipoItem = 'bebida'")
+    estoque_bebidas = cursor.fetchall()
+    print("Estoque Bebidas:", estoque_bebidas)
+    
+    # Verificar se há correspondência no cardápio
+    cursor.execute("SELECT * FROM Cardapio")
+    cardapio = cursor.fetchall()
+    print("Cardapio:", cardapio)
+
+    # Consulta para obter as bebidas
+    cursor.execute("SELECT e.nomeItem, c.preco FROM Estoque e INNER JOIN Cardapio c ON e.idItem = c.idItem WHERE e.tipoItem = 'bebida' AND c.disponibilidade = true")
     bebidas = cursor.fetchall()
-    print(bebidas)
+    print("Bebidas:", bebidas)
+    
     cursor.close()
     connection.close()
     
     return render_template('bebidas.html', bebidas=bebidas)
+
 
 @app.route('/porcoes')
 def porcoes():

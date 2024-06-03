@@ -30,11 +30,11 @@
         <div class="conteiner-main">
 
             <div class="coluna1">
-                {% for bebidas in bebidas %}
+                {% for bebida in bebidas %}
                 <label class="item-checkbox-label">
-                    <span>{{ bebidas.nomeItem }}</span>
-                    <input type="checkbox" name="pedidos" value="{{ bebidas.nomeItem }}" class="item-checkbox">
-                    <input type="number" name="quantidades" id="quantidades" class="qtd" placeholder="Quantidade" min="1">
+                    <span>{{ bebida[0] }} e R${{ bebida[1] }}</span>
+                    <input type="checkbox" name="pedidos" value="{{ bebida[0] }}" class="item-checkbox">
+                    <input type="number" name="quantidades" id="quantidades" class="qtd" placeholder="Quantidade" min="1" value="{{ bebida[2] }}">
                 </label>
                 {% endfor %}
             </div>
@@ -43,16 +43,11 @@
 
         </div>
     </main>
-
-    <!---buttons-->
-
-    <section>
         <div class="conteiner-section">
             <button class="adicionar">Adicionar</button>
-            <button class="cancelar">Cancelar</button>
+            <button class="cancelar"><a href="cardapio">Cancelar</a></button>
             <button class="confirmar">Confirmar</button>
         </div>
-    </section>
 </body>
 
 </html>

@@ -60,6 +60,7 @@ def lanche():
     cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute("SELECT e.nomeItem, c.preco FROM Estoque e INNER JOIN Cardapio c ON e.idItem = c.idItem WHERE e.tipoItem = 'lanche'")
     lanches = cursor.fetchall()
+    print(lanches)
     cursor.close()
     connection.close()
     
@@ -72,6 +73,7 @@ def bebidas():
     cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute("SELECT e.nomeItem, c.preco FROM Estoque e INNER JOIN Cardapio c ON e.idItem = c.idItem WHERE e.tipoItem = 'bebida'")
     bebidas = cursor.fetchall()
+    print(bebidas)
     cursor.close()
     connection.close()
     
