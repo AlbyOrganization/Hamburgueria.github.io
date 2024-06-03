@@ -1,13 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session 
 import os
 import psycopg2
-import mysql.connector
 from dotenv import load_dotenv 
 from pathlib import Path
-from flask_swagger_ui import get_swaggerui_blueprint
-
-#dotenv_path = Path('environment/.env')
-#load_dotenv(dotenv_path=dotenv_path)
 
 def get_db_connection():
     host = os.getenv('HOST_NAME')
@@ -48,12 +43,10 @@ def lanche():
 @app.route('/bebidas')
 def bebidas():
     return render_template('bebidas.html')
-    #return render_template('cardapio3.html')
 
 @app.route('/porcoes')
 def porcoes():
     return render_template('porcoes.html')
-    #return render_template('pedidos.html')
 
 @app.route('/cardapio')
 def cardapio():

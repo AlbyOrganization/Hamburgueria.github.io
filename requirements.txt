@@ -1,7 +1,5 @@
 Flask==3.0.3
-mysql-connector-python==8.4.0
 python-dotenv==1.0.1
 Werkzeug==3.0.3
 gunicorn==22.0.0
-flask-swagger-ui==4.11.1
 psycopg2==2.9.9

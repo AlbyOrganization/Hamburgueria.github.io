@@ -30,67 +30,16 @@
         <div class="conteiner-main">
 
             <div class="coluna1">
-
-                <div class="item01">
-                    <p>1- Coca-cola(350ml)</p>
-                </div>
-                <div class="item02">
-                    <p>2- Coca-cola Zero(350ml)</p>
-                </div>
-                <div class="item03">
-                    <p>3- Fanta Uva(350ml)</p>
-                </div>
-                <div class="item04">
-                    <p>4- Fanta Laranja(350ml)</p>
-                </div>
-                <div class="item05">
-                    <p>5- Guaraná Antártica(350ml)</p>
-                </div>
-                <div class="item06">
-                    <p>6- Àgua Mineral(200ml)</p>
-                </div>
-                <div class="item07">
-                    <p>7- Àgua Com Gás(200ml)</p>
-                </div>
-                <div class="item08">
-                    <p>8- Suco Del Valle Uva(290ml)</p>
-                </div>
-                <div class="item09">
-                    <p>9-SucoDelValle Manga(290ml)</p>
-                </div>
-
+                {% for bebidas in bebidas %}
+                <label class="item-checkbox-label">
+                    <span>{{ bebidas.nomeItem }}</span>
+                    <input type="checkbox" name="pedidos" value="{{ bebidas.nomeItem }}" class="item-checkbox">
+                    <input type="number" name="quantidades" id="quantidades" class="qtd" placeholder="Quantidade" min="1">
+                </label>
+                {% endfor %}
             </div>
 
-            <div class="coluna2">
-                <div class="item1">
-                    <p>R$8,80</p>
-                </div>
-                <div class="item2">
-                    <p>R$8,80</p>
-                </div>
-                <div class="item3">
-                    <p>R$8,80</p>
-                </div>
-                <div class="item4">
-                    <p>R$8,80</p>
-                </div>
-                <div class="item5">
-                    <p>R$8,80</p>
-                </div>
-                <div class="item6">
-                    <p>R$7,80</p>
-                </div>
-                <div class="item7">
-                    <p>R$7,80</p>
-                </div>
-                <div class="item8">
-                    <p>R$9,80</p>
-                </div>
-                <div class="item9">
-                    <p>R$9,80</p>
-                </div>
-
-            </div>
+             </div>
 
         </div>
     </main>
@@ -104,7 +53,6 @@
             <button class="confirmar">Confirmar</button>
         </div>
     </section>
-    <script src="/assets/scripts/logout.js"></script>
 </body>
 
 </html>

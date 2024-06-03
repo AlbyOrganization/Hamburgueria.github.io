@@ -35,44 +35,14 @@
 
         <div class="conteiner-main">
             <div class="coluna1">
-
-                <div class="item01">
-                    <p>1- Batata Tradicional P</p>
-                </div>
-                <div class="item02">
-                    <p>2- Batata Tradicional M</p>
-                </div>
-                <div class="item03">
-                    <p>3- Batata Tradicional G</p>
-                </div>
-                <div class="item05">
-                    <p>5- Batata Com Bacon</p>
-                </div>
-                <div class="item06">
-                    <p>6- Batata Nove Suprema</p>
-                </div>
-
-
+                {% for porcao %}
+                <label class="item-checkbox-label">
+                    <span>{{ porcao.nomeItem }}</span>
+                    <input type="checkbox" name="pedidos" value="{{ porcao.nomeItem }}" class="item-checkbox">
+                    <input type="number" name="quantidades" id="quantidades" class="qtd" placeholder="Quantidade" min="1">
+                </label>
+                {% endfor %}
             </div>
-
-            <div class="coluna2">
-                <div class="item1">
-                    <p>R$10,00</p>
-                </div>
-                <div class="item2">
-                    <p>R$14,90</p>
-                </div>
-                <div class="item3">
-                    <p>R$17,90</p>
-                </div>
-                <div class="item4">
-                    <p>R$21,90</p>
-                </div>
-                <div class="item5">
-                    <p>R$27,90</p>
-                </div>
-            </div>
-
         </div>
     </main>
 
@@ -80,7 +50,7 @@
 
     <section>
         <div class="conteiner-section">
-            <button class="adicionar" onclick="redirectToPagamento()">Adicionar</button>
+            <button class="adicionar">Adicionar</button>
             <button class="cancelar">
                 <a href="pagamento">Cancelar</a>
             </button>
@@ -90,12 +60,6 @@
 
         </div>
     </section>
-    <script>
-        function redirectToPagamento() {
-    window.location.href = '/pagamento';
-}
-    </script>
-    <script src="/assets/scripts/logout.js"></script>
 
 </body>
 

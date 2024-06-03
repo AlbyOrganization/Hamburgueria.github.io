@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento</title>
+    <link rel="shortcut icon" href="../assets/images/favicon_io (3)/favicon-32x32.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/css/pagamento.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/botoes.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/nav.css">
+</head>
+<body>
+    <nav>
+        <img src="../assets/images/logonoveburguerbar.png" alt="Logotipo da Nove Burguerbar">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="alterar-cardapio">Editar Cardápio</a></li>
+            <li><a href="status-pedido">Pedidos</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="pedidos"><p>Pedidos</p></div>
+            <div class="qtd"><p>Quantidade</p></div>
+            <div class="preco"><p>Preço</p></div>
+        </div>
+        <div class="container">
+            <div class="caixa-ped">
+                {% for pedido in pedidos %}
+                <p>{{ pedido.itemPed }}</p>
+                {% endfor %}
+            </div>
+            <div class="caixa-qtd">
+                {% for pedido in pedidos %}
+                <p>{{ pedido.valTotal }}</p>
+                {% endfor %}
+            </div>
+            <div class="caixa-preco">
+                {% for pedido in pedidos %}
+                <p>{{ pedido.valTotal }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="container">
+            <div class="val-total">
+                <p>Valor Total: {{ valor_total }}</p>
+            </div>
+        </div>
+    </main>
+    
+    <div class="conteiner-section">
+        <button class="voltar"><p>Voltar</p></button>
+        <button class="cancelar"><p>Cancelar</p></button>
+        <button class="confirmar"><p>Pagar</p></button>
+    </div>
+</body>
+</html>

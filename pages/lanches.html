@@ -40,20 +40,11 @@
                     {% for lanche in lanches %}
                     <label class="item-checkbox-label">
                         <span>{{ lanche.nomeItem }}</span>
-                        <input type="checkbox" name="pedidos" value="{{ lanche.nomeLanche }}" class="item-checkbox">
-                        <input type="number" name="quantidades" id="quantidades" class="qtd" placeholder="Quantidade"
-                            min="1">
-                    </label>
-                    {% endfor %}
-
-                </div>
-
-                <div class="coluna2">
-
-                    {% for lanche in lanches %}
-                    <div class="pricetag">
+                        <input type="checkbox" name="pedidos" class="item-checkbox" value="{{ lanche.nomeItem }}">
+                        <input type="number" name="quantidades" id="quantidades" class="qtd" placeholder="Qnt" min="1">
                         <p class="i">R${{ lanche.preco }}</p>
-                    </div>
+                    </label>
+                    
                     {% endfor %}
 
                 </div>
@@ -70,7 +61,6 @@
                 <button class="confirmar">Confirmar</button>
             </div>
         </section>
-        <script src="/assets/scripts/logout.js"></script>
     </body>
 
 </html>

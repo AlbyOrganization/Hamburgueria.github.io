@@ -1,5 +1,12 @@
 /*buttons*/
 
+.conteiner-section{
+    background-color:rgb(215, 214, 214) ;
+    display: flex;
+    padding-top: 25px;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
 
 #criar, .confirmar, .adicionar, .cancelar, .voltar{
     border-radius: 30px;

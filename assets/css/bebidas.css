@@ -66,13 +66,7 @@ main{
 }
 /*fim coluna2*/
 
-.conteiner-section{
-    background-color:rgb(215, 214, 214) ;
-    display: flex;
-    padding-top: 25px;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-}
+
 
 
 main{

@@ -6,11 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informações salvas com sucesso</title>
     <link rel="shortcut icon" href="../assets/images/favicon_io (3)/favicon-32x32.png" type="image/x-icon">
-    <link rel="stylesheet" href="../assets/css/nav.css">
-    <link rel="stylesheet" href="../assets/css/informacoes_salvas.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/nav.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/informacoes_salvas.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/botoes.css">
 </head>
 
 <body>
+    <form action="{{url_for('alterar-cardapio')}}" method="GET"></form>
 
     <nav>
         <img src="../assets/images/logonoveburguerbar.png" alt="Logotipo da Nove Burguerbar">
@@ -26,16 +28,11 @@
         <div class="conteiner">
             <div class="caixa">
                 <p>Informações salvas com sucesso!</p>
+                <button class="inicio" type="submit" >Ok</button>
+                <button class="inicio" type="submit">Início</button>
             </div>
-            <!---buttons-->
-            <button class="inicio" onclick="RedirectToHome()">Início</button>
         </div>
     </main>
-    <script src="/assets/scripts/logout.js"></script>
 </body>
-    <script>
-        function RedirectToHome(){
-            
-        }
-    </script>
+
 </html>
