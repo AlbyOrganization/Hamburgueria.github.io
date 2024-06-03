@@ -39,10 +39,9 @@
 
                     {% for lanche in lanches %}
                     <label class="item-checkbox-label">
-                        <span>{{ lanche.nomeItem }}</span>
-                        <input type="checkbox" name="pedidos" class="item-checkbox" value="{{ lanche.nomeItem }}">
+                        <span>{{ lanche[0] }} e R${{ lanche[1] }}</span>
+                        <input type="checkbox" name="pedidos" class="item-checkbox" value="{{ lanche[0] }}">
                         <input type="number" name="quantidades" id="quantidades" class="qtd" placeholder="Qnt" min="1">
-                        <p class="i">R${{ lanche.preco }}</p>
                     </label>
                     
                     {% endfor %}
