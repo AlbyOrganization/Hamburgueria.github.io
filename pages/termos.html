@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,22 +10,72 @@
     <link rel="stylesheet" href="../assets/css/termos.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/botoes.css">
 </head>
+
 <body>
     <nav>
         <img src="../assets/images/logonoveburguerbar.png" alt="Logotipo da Nove Burguerbar">
         <ul>
-            
-            <li><a href="#">###</a></li>
-            <li><a href="#">###</a></li>
-            <li><a href="#">###</a></li>
-        
+
+            <li><a href="/">Home</a></li>
+            <li><a href="logout">Sair</a></li>
+            {% if session.logged_in and session.is_employee %}
+            <li><a href="alterar-cardapio">Editar Cardápio</a></li>
+            {% endif %}
+
         </ul>
     </nav>
     <main>
         <h1>Termos e Condições de Uso do Site</h1>
+        <p>Este termo refere-se a Burguer Bar e sua parceria com o grupo OneGroup, resultando no desenvolvimento de um
+            website de acordo com as normas da <b>LGPD</b> como forma de solucionar os problemas e dificuldades frequentes de
+            efetuar pedidos sem o uso do papel. Ao navegar neste site e usar os serviços que são fornecidos, o usuário
+            compreende e/ou concorda com nossos Termos e Condições. Caso haja qualquer objeção a qualquer uma das
+            disposições dos Termos e Condições, aconselhamos a não navegar em nossos serviços.</p>
+
+        <p>Os Termos e Condições da Nove Burguer Bar descrevem as regras e regulamentos para o uso do site por este link:
+            <a href="https://hamburgueria-github-io.onrender.com"
+                style="text-decoration: none; list-style: none;">https://hamburgueria-github-io.onrender.com</a>.</p>
+
+        <p>a Nove Burguer Bar não faz uso de serviços de terceiros, cookies ou derivados. A Nove Burguer Bar detém os
+            direitos de propriedade intelectual de todo o conteúdo. Todos os direitos de propriedade intelectual são
+            reservados. Você pode acessar qualquer conteúdo do site para uso pessoal, sujeito às restrições definidas
+            nestes termos e condições.</p>
+
+        <p>A Nove Burguer Bar, por meio deste, determina que o usuário não cometa as seguintes ações:</p>
+        <p>Reproduzir, republicar, duplicar ou copiar qualquer conteúdo da Nove Burguer Bar;
+            Vender, alugar, sublicenciar e/ou de outra forma comercializar qualquer conteúdo da Nove Burguer Bar;</p>
+        <p>Executar e/ou exibir publicamente qualquer conteúdo da Nove Burguer Bar;</p>
+        <p>Usar este site de maneira contrária às regras, leis e regulamentos relevantes do seu país de residência, ou de uma maneira que cause, ou possa causar, danos ao site ou a qualquer pessoa ou entidade comercial;</p>
+        <p>Realizar mineração de dados ou qualquer outra atividade semelhante relacionada a este site, ou durante o
+            uso deste site; e</p>
+        <p>Usar este site para se envolver em qualquer forma de publicidade ou marketing empresarial.</p>
+
+        <p>Áreas específicas deste site podem ser restritas ao acesso do usuário, e a Nove Burguer Bar pode estender
+            ainda mais essa restrição a todo o site, a qualquer momento e a seu exclusivo critério. Qualquer
+            identificação de usuário, chave de segurança ou senha que você possa ter neste site são confidenciais, e
+            você é responsável por manter a confidencialidade dessas informações.</p>
+
+        <p>Podemos alterar os termos e condições destes direitos de vinculação a qualquer momento. Ao conectar-se
+            continuamente ao nosso site, você concorda em se comprometer e seguir os termos desta política de links.</p>
+
+        <h2>Política de Privacidade</h2>
+
+        <p>Ao acessar este site, informações específicas do seu cadastro como e-mail, CPF e senha serão armazenadas nos
+            servidores da Nove Burguer Bar. As informações sensíveis de sua identidade serão usadas apenas para fins
+            estatísticos e não serão publicadas para acesso geral. Assumimos total responsabilidade pela segurança
+            dessas
+            informações enquanto em nossos serviços.</p>
+
+        <p>Buscamos manter a integridade dos dados dos nossos clientes acima de tudo, priorizando a manutenção de erros
+            e
+            feedback dos usuários.</p>
+
+        <p id="final">Qualquer dúvida, entre em contato por meio do endereço de e-mail: <a href=""
+                style="text-decoration: none; list-style: none;">noveburguerbar@gmail.com</a>.</p>
     </main>
     <section class="conteiner-section">
-        <a class="voltar" href="voltar">Voltar</a>
+        <a class="voltar" href="voltar" style="list-style: none; text-decoration: none;">Voltar</a>
     </section>
 </body>
+
 </html>

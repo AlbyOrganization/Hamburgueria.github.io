@@ -1,0 +1,36 @@
+p{
+    text-align: justify;
+    font-family: sans-serif, 'Arial Narrow';
+    margin: 10px;
+    width: calc(100%-20px);
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+
+}
+h1, h2{
+    margin: 20px;
+}
+main{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    margin: 10px;
+    height: 140vh;
+    border-bottom: 1px solid #a2a2a2;
+    width: calc(100% - 40px); /* Considera o margin de 20px em cada lado */
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+#final{
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    margin-right: 0px;
+}
+.lista, .ordem{
+    font-family: sans-serif, 'Arial Narrow';
+    font-weight:normal;
+    margin: 0px;
+    float: none;
+    text-align: justify;
+
+}

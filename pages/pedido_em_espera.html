@@ -13,11 +13,13 @@
     <nav>
         <img src="../assets/images/logonoveburguerbar.png" alt="Logotipo da Nove Burguerbar">
         <ul>
-            
-            <li><a href="#">###</a></li>
-            <li><a href="#">###</a></li>
-            <li><a href="#">###</a></li>
-        
+
+            <li><a href="/">Home</a></li>
+            <li><a href="logout">Sair</a></li>
+            {% if session.logged_in and session.is_employee %}
+            <li><a href="alterar-cardapio">Editar Cardápio</a></li>
+            {% endif %}
+
         </ul>
     </nav>
 
