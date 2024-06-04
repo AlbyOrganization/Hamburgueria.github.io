@@ -271,7 +271,7 @@ def status_pedido():
         cursor.close()
         connection.close()
         
-        return render_template('ver_pedido.html', pedidos=pedidos_nao_concluidos)
+        return render_template('ver_pedidos.html', pedidos=pedidos_nao_concluidos)
     
     except psycopg2.Error as e:
         print(f"Erro ao conectar ao banco de dados: {e}")
@@ -298,6 +298,26 @@ def ver_pedido(numPed):
     except psycopg2.Error as e:
         print(f"Erro ao conectar ao banco de dados: {e}")
         return render_template('detalhes_pedido.html', error="Erro ao conectar ao banco de dados")
+
+@app.route('/pedido/<int:numPed>/pronto', methods=['POST'])
+def pedido_pronto(numPed):
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        
+        cursor.execute("DELETE FROM Pedido WHERE numPed = %s", (numPed,))
+        cursor.execute("DELETE FROM PedidoItens WHERE numPed = %s", (numPed,))
+        connection.commit()
+        
+        cursor.close()
+        connection.close()
+        
+        return redirect(url_for('status_pedido'))
+    
+    except psycopg2.Error as e:
+        print(f"Erro ao conectar ao banco de dados: {e}")
+        return redirect(url_for('status_pedido', error="Erro ao atualizar o pedido"))
+
 
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
