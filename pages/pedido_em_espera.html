@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/botoes.css">
 </head>
 <body>
+<form action="{{ url_for('pedido_pronto', numPed=pedido.numPed) }}" method="POST" style="display:inline;">
     <nav>
         <img src="../assets/images/logonoveburguerbar.png" alt="Logotipo da Nove Burguerbar">
         <ul>
@@ -26,27 +27,32 @@
     <main>
         <div class="caixa1">
             <div class="item1"><h2>Senha:</h2></div>
-            <div class="item2">500</div>
+            <div class="item2">{{ pedido.numPed }}</div>
              <button class="item3">Pedido em Espera</button>
         </div>
 
         <div class="conteiner">
             <div class="pedidos">
                 <p>Pedidos</p>
-                <div>1- Cheesburguer Nove</div>
+                {% for item in itens_pedido %}
+                <div>{{ loop.index }}- {{ item.nome }}</div>
+                {% endfor %}
             </div>
 
 
             <div class="qtde">
-                <p>Qtde</p>
-                <div>3</div>
+                <p>Quantidade</p>
+                {% for item in itens_pedido %}
+                <div>{{ item.quantidade }}</div>
+                {% endfor %}
             </div>
         </div>
     </main>
 
     <section>
-        <a class="voltar" href="status-pedido" style="list-style: none; text-decoration: none;">Voltar</a>
+        <a class="voltar" href="{{ url_for('status_pedido') }}" style="list-style: none; text-decoration: none;">Voltar</a>
         <button class="confirmar" type="submit">Pronto</button>
     </section>
+    </form>
 </body>
 </html>
