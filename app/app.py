@@ -397,6 +397,10 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
+@app.route('/termos')
+def termos():
+    return redirect(url_for('termos.html'))
+
 @app.route('/alterar-cardapio', methods=['GET', 'POST'])
 def alterar_cardapio():  
     if request.method == 'POST':
