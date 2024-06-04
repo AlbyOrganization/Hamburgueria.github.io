@@ -27,7 +27,7 @@
 
             // Verifica se o botão Confirmar está habilitado antes de redirecionar
             if (!botaoConfirmar.disabled) {
-                window.location.href = "{{ url_for('forma-pagamento') }}"; // Redireciona para a página de forma de pagamento
+                window.location.href = "{{ url_for('forma_pagamento') }}"; // Redireciona para a página de forma de pagamento
             }
         }
     </script>
@@ -58,7 +58,7 @@
 
     <div class="conteiner-section">
         <a href="/" style="list-style: none; text-decoration: none; color: black;" class="cancelar">Cancelar</a>
-        <button class="confirmar" type="button" disabled onclick="redirecionarParaFormaPagamento()">Confirmar</button>
+        <button class="confirmar"disabled onclick="redirecionarParaFormaPagamento()" style="color: black;">Confirmar</button>
     </div>
 
 </body>

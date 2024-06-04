@@ -43,6 +43,7 @@
                         <span>{{ lanche[0] }} --- R${{ lanche[1] }}</span>
                         <input type="checkbox" name="pedidos" class="item-checkbox" value="{{ lanche[0] }}">
                         <input type="number" name="quantidades" id="quantidades" class="qtd" placeholder="Qnt" min="1" value="{{ lanche[2] }}">
+                        <input name="preco" id="preco" class="preco" placeholder="Preço"  value="{{ lanche[1] }}"
                     </label>
                     
                     {% endfor %}

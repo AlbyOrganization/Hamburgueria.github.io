@@ -47,13 +47,6 @@ def get_db_connection():
 app = Flask(__name__, static_folder='../assets', template_folder='../pages')
 app.secret_key = os.getenv('SECRET_KEY', os.urandom(24))
 
-@app.route('/')
-def index():
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
-    
-    return render_template('index.html')
-
 @app.route('/lanche', methods=['GET', 'POST'])
 def lanche():
     if request.method == 'POST':
@@ -205,7 +198,7 @@ def forma_pagamento():
                 print("Erro ao inserir pagamento no banco de dados:", e)
                 # Renderizar uma página de erro ou redirecionar para uma página apropriada
                 return render_template('erro_no_pagamento.html')
-
+    return render_template('forma-pagamento')
 @app.route('/erro-pagamento')
 def erro_pagamento():
     return render_template('erro_no_pagamento.html')
@@ -250,7 +243,7 @@ def pagamento():
         except Exception as e:
                         # Em caso de erro, redirecionar para a página de erro_no_pagamento.html
             print("Erro durante o pagamento:", e)
-            return redirect(url_for('erro_pagamento'))
+            return redirect(url_for('erro_no_pagamento.html'))
         
     # Se o método for GET, renderiza a página de pagamento normalmente
     return render_template('pagamento.html', pedidos=pedidos, valor_total=valor_total)
@@ -275,9 +268,8 @@ def status_pedido():
     
     except psycopg2.Error as e:
         print(f"Erro ao conectar ao banco de dados: {e}")
-        return render_template('ver_pedido.html', error="Erro ao conectar ao banco de dados")
-    return render_template('status_do_pedido.html')
-
+        return render_template('status_do_pedido.html', error="Erro ao conectar ao banco de dados")
+    
 @app.route('/pedido/<int:numPed>')
 def ver_pedido(numPed):
     try:
@@ -364,10 +356,10 @@ def verify_credentials(username, password):
     cursor.close()
     connection.close()
 
-    if user and user['senha'] == password:
-        return True
+    if user:
+        return user
     else:
-        return False
+        return None
 
 def is_employee(username):
     connection = get_db_connection()
@@ -398,18 +390,51 @@ def login():
         username = request.form.get('login')
         password = request.form.get('senha')
         
-
-        if verify_credentials(username, password):
+        user = verify_credentials(username, password)
+        if user:
             session['logged_in'] = True
             session['username'] = username
             session['is_employee'] = is_employee(username)
-            session['idCliente'] = get_cliente_id('idCadastro')
+            #session['idCadastro'] = user['idCadastro']
+            #print(session['idCadastro'])
+            #session['idCliente'] = get_cliente_id(user['idCadastro'])
+
+            # Redirecione para a página inicial após o login bem-sucedido
             return redirect(url_for('index'))
         else:
             mensagem = 'E-mail ou senha incorretos. Tente novamente.'
             return render_template('login.html', mensagem=mensagem)
 
     return render_template('login.html')
+
+# Rota da página inicial, após o login
+def get_idCadastro(idCliente):
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        cursor.execute("SELECT idCadastro FROM Cliente WHERE idCliente = %s", (idCliente,))
+        idCadastro = cursor.fetchone()
+        cursor.close()
+        connection.close()
+        return idCadastro
+    except Exception as e:
+        print("Erro ao obter idCadastro:", e)
+        return None
+
+# Rota da página inicial, após o login
+@app.route('/')
+def index():
+    # Verifique se o usuário está logado
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    # Recupere o idCliente e o idCadastro da sessão
+    idCliente = session.get('idCliente')
+    idCadastro = get_idCadastro(idCliente)
+
+    # Você pode adicionar lógica adicional aqui, se necessário
+
+    return render_template('index.html') #, idCadastro=idCadastro)
 
 @app.route('/logout')
 def logout():
@@ -419,7 +444,7 @@ def logout():
 
 @app.route('/termos')
 def termos():
-    return redirect(url_for('termos.html'))
+    return render_template('termos.html')
 
 @app.route('/alterar-cardapio', methods=['GET', 'POST'])
 def alterar_cardapio():  
@@ -505,7 +530,7 @@ def inserir_pedido():
                 return render_template('senha.html', error="Erro ao inserir pedido no banco de dados")
 
     # Se o método não for POST, redirecione para a página inicial
-    return redirect(url_for('index'))
+    return render_template('index')
 
 
 @app.route('/informacoes_salvas')
