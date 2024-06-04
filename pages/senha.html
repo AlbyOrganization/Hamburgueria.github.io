@@ -8,18 +8,22 @@
     <link rel="stylesheet" href="../assets/css/senha.css">
     <link rel="shortcut icon" href="../assets/images/favicon_io (3)/favicon-32x32.png" type="image/x-icon">
     <link rel="stylesheet" href="../assets/css/nav.css">
+    <link rel="stylesheet" href="../assets/css/botoes.css">
     <script src="../assets/scripts/imprimir.js" defer></script>
 </head>
 
 <body>
+    <form action="{{ url_for('inserir_pedido') }}" method="POST">
     <nav>
         <img src="../assets/images/logonoveburguerbar.png" alt="Logotipo da Nove Burguerbar">
 
         <ul>
 
             <li><a href="/">Home</a></li>
-            <li><a href="alterar-cardapio">Editar Cardapio</a></li>
-            <li><a href="status-pedido">Pedidos</a></li>
+            <li><a href="logout">Sair</a></li>
+            {% if session.logged_in and session.is_employee %}
+            <li><a href="alterar-cardapio">Editar Cardápio</a></li>
+            {% endif %}
 
         </ul>
         </label>
@@ -27,14 +31,13 @@
 
     <!---buttons-->
 
-    <div class="quadrado">
-        <p>552</p>
-    </div>
+    <div class="quadrado">{{ numero_senha }}</div>
     <div class="botoes">
-        <button class="Voltar">Voltar</button>
-        <button onclick="imprimirConteudo()" class="Imprimir">Imprimir</button>
+        <input type="hidden" name="senha_pedido" value="{{ numero_senha }}">
+        <button class="voltar" type="submit">Voltar</button>
+        <!--<button onclick="imprimirConteudo()" class="Imprimir">Imprimir</button>-->
     </div>
-
+</form>
 </body>
 
 </html>

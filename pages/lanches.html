@@ -11,17 +11,18 @@
     <link rel="stylesheet" href="../assets/css/botoes.css">
 </head>
 
-<body>
-
     <body>
+        <form method="POST" action="{{ url_for('lanche') }}">
         <nav>
 
             <img src="../assets/images/logonoveburguerbar.png" alt="Logotipo da Nove Burguerbar">
             <ul>
 
                 <li><a href="/">Home</a></li>
-                <li><a href="alterar-cardapio">Editar Cardapio</a></li>
-                <li><a href="status-pedido">Pedidos</a></li>
+                <li><a href="logout">Sair</a></li>
+                {% if session.logged_in and session.is_employee %}
+                <li><a href="alterar-cardapio">Editar Cardápio</a></li>
+                {% endif %}
 
             </ul>
         </nav>
@@ -39,7 +40,7 @@
 
                     {% for lanche in lanches %}
                     <label class="item-checkbox-label">
-                        <span>{{ lanche[0] }} e R${{ lanche[1] }}</span>
+                        <span>{{ lanche[0] }} --- R${{ lanche[1] }}</span>
                         <input type="checkbox" name="pedidos" class="item-checkbox" value="{{ lanche[0] }}">
                         <input type="number" name="quantidades" id="quantidades" class="qtd" placeholder="Qnt" min="1" value="{{ lanche[2] }}">
                     </label>
@@ -54,12 +55,12 @@
         <!---buttons-->
 
         <section>
-            <div class="conteiner-section">
-                <button class="adicionar">Adicionar</button>
-                <button class="cancelar">Cancelar</button>
-                <button class="confirmar">Confirmar</button>
+            <div class="conteiner-section">            
+                <a class="cancelar" href="cardapio" style="list-style: none; text-decoration: none; color: black;">Cancelar</a>
+                <button type="submit" class="confirmar">Confirmar</button>
             </div>
         </section>
+        </form>
     </body>
 
 </html>

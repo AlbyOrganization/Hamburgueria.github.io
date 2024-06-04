@@ -16,8 +16,10 @@
         <ul>
 
             <li><a href="/">Home</a></li>
-            <li><a href="alterar-cardapio">Editar Cardapio</a></li>
-            <li><a href="status-pedido">Pedidos</a></li>
+            <li><a href="logout">Sair</a></li>
+            {% if session.logged_in and session.is_employee %}
+            <li><a href="alterar-cardapio">Editar Cardápio</a></li>
+            {% endif %}
 
         </ul>
 
@@ -26,12 +28,10 @@
 
         <div class="conteiner">
             <h1>Erro no pagamento!</h1>
-
-            <!---buttons-->
-
+            
             <input class="tentar_novamente" type="button" value="Tentar novamente">
-            <input class="cancelar" type="button" value="Cancelar">
-            <input class="mudar_pgmt" type="button" value="Mudar forma de pagamento">
+            <a class="cancelar" href="/">Cancelar</a>
+            <a class="mudar_pgmt" href="forma-pagamento">Mudar forma de pagamento</a>
 
         </div>
 

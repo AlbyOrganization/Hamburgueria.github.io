@@ -1,0 +1,87 @@
+
+main{
+	    border-bottom: 1px solid #a2a2a2;
+        height: 60vh;
+}
+section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+.caixa1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+}
+
+.item1{
+    font-family: sans-serif;
+}
+
+p{
+    margin-top: 30px;
+    text-align: center;
+    font-size: 30px;
+    font-family: sans-serif;
+    font-weight: bolder;
+}
+
+.item2{
+    margin: 20px;
+    width: 500px;
+    height: 40px;
+    background-color: white;
+    text-align: center;
+    align-content: center;
+    color: #c52e2e;
+    font-family: sans-serif;
+    font-size: 20px;
+}
+
+.item3{
+    width: 200px;
+    height: 40px;
+    background-color: black;
+    text-align: center;
+    align-content: center;
+    color: white;
+    font-family: sans-serif;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.item3:hover{
+
+    box-shadow: 2px 2px 3px 2px rgb(139, 139, 139);
+
+}
+
+.conteiner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pedidos > div{
+    width: 700px;
+    height: 50px;
+    background-color: white ;
+    margin: 10px;
+    align-content: center;
+    font-size: 20px;
+    font-family: sans-serif;
+    padding-left: 10px;
+}
+
+.qtde > div{
+    width: 100px;
+    height: 50px;
+    background-color: white ;
+    margin: 10px;
+    text-align: center;
+    align-content: center;
+    font-size: 20px;
+    font-family: sans-serif;
+}

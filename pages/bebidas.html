@@ -7,17 +7,20 @@
     <title>Bebidas</title>
     <link rel="shortcut icon" href="../assets/images/favicon_io (3)/favicon-32x32.png" type="image/x-icon">
     <link rel="stylesheet" href="../assets/css/nav.css">
-    <link rel="stylesheet" href="../assets/css/bebidas.css">
+    <link rel="stylesheet" href="../assets/css/lanches.css">
     <link rel="stylesheet" href="../assets/css/botoes.css">
 </head>
 
 <body>
+    <form method="POST" action="{{ url_for('bebidas') }}">
     <nav>
         <img src="../assets/images/logonoveburguerbar.png" alt="Logotipo da Nove Burguerbar">
         <ul>
             <li><a href="/">Home</a></li>
-            <li><a href="alterar-cardapio">Editar Cardapio</a></li>
-            <li><a href="status-pedido">Pedidos</a></li>
+            <li><a href="logout">Sair</a></li>
+            {% if session.logged_in and session.is_employee %}
+            <li><a href="alterar-cardapio">Editar Cardápio</a></li>
+            {% endif %}
 
         </ul>
 
@@ -25,14 +28,14 @@
 
     <main>
 
-        <h1>Bebidas</h1>
+        <h1 style="margin-top: 10px;">Bebidas</h1>
 
         <div class="conteiner-main">
 
             <div class="coluna1">
                 {% for bebida in bebidas %}
                 <label class="item-checkbox-label">
-                    <span>{{ bebida[0] }} e R${{ bebida[1] }}</span>
+                    <span>{{ bebida[0] }} --- R${{ bebida[1] }}</span>
                     <input type="checkbox" name="pedidos" value="{{ bebida[0] }}" class="item-checkbox">
                     <input type="number" name="quantidades" id="quantidades" class="qtd" placeholder="Quantidade" min="1" value="{{ bebida[2] }}">
                 </label>
@@ -43,11 +46,11 @@
 
         </div>
     </main>
-        <div class="conteiner-section">
-            <button class="adicionar">Adicionar</button>
-            <button class="cancelar"><a href="cardapio">Cancelar</a></button>
-            <button class="confirmar">Confirmar</button>
+        <div class="conteiner-section">            
+            <a class="cancelar" href="cardapio" style="list-style: none; text-decoration: none; color: black;">Cancelar</a>
+            <button class="confirmar" type="submit">Confirmar</button>
         </div>
+    </form>
 </body>
 
 </html>

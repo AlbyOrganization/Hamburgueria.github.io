@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagamento Aprovado</title>
-
     <link rel="shortcut icon" href="../assets/images/favicon_io (3)/favicon-32x32.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/css/ver_pedidos.css">
+    <link rel="stylesheet" href="../assets/css/botoes.css">
     <link rel="stylesheet" href="../assets/css/nav.css">
-    <link rel="stylesheet" href="../assets/css/pagamento_feito_com_sucesso.css">
-
+    <title>Ver Pedidos</title>
 </head>
-
 <body>
     <nav>
         <img src="../assets/images/logonoveburguerbar.png" alt="Logotipo da Nove Burguerbar">
         <ul>
-
             <li><a href="/">Home</a></li>
             <li><a href="logout">Sair</a></li>
             {% if session.logged_in and session.is_employee %}
@@ -26,21 +22,26 @@
         </ul>
     </nav>
     <main>
+        
+        <h1>Pedidos</h1>
         <div class="conteiner">
-            <div>
-                <p>Pagamento feito com sucesso!</p>
+            {% for pedido in pedidos %}
+            <div class="caixa1" style="margin: 10px;">
+                <p style="font-size: 30px; margin-top: 10px;">{{ pedido.numPed }}</p>
             </div>
-
+            <div class="caixa2" style="margin: 10px;">
+                <a href="pedido/{{ pedido.numPed }}">Ver Pedido</a>
+            </div>
+            {% else %}
+            <p style="font-size: 20px; margin-top: 10px;">Nenhum pedido não concluído</p>
+            {% endfor %}
         </div>
     </main>
-
-    <!---buttons-->
-
-    <section>
+    
+    <section> 
         <div class="conteiner1">
-            <input class="senha" type="button" value="Gerar Senha">
+             <a class="voltar" href="/">Voltar</a>
         </div>
     </section>
 </body>
-
 </html>

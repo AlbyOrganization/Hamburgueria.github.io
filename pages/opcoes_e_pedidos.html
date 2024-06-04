@@ -9,32 +9,56 @@
     <link rel="stylesheet" href="../assets/css/nav.css">
     <link rel="stylesheet" href="../assets/css/opcoes_e_pedidos.css">
     <link rel="stylesheet" href="../assets/css/botoes.css">
+    <script>
+        // Função para habilitar ou desabilitar o botão Confirmar com base na presença de pedidos na sessão
+        function verificarPedidos() {
+            var pedidosNaSessao = "{{ session.pedidos }}" || "[]"; // Obtém os pedidos armazenados na sessão
+            var botaoConfirmar = document.getElementById("botao-confirmar");
+
+            // Se houver pedidos na sessão, habilitar o botão Confirmar; caso contrário, desabilitá-lo
+            if (JSON.parse(pedidosNaSessao).length > 0) {
+                botaoConfirmar.disabled = false;
+            } else {
+                botaoConfirmar.disabled = true;
+            }
+        }
+        function redirecionarParaFormaPagamento() {
+            var botaoConfirmar = document.getElementById("botao-confirmar");
+
+            // Verifica se o botão Confirmar está habilitado antes de redirecionar
+            if (!botaoConfirmar.disabled) {
+                window.location.href = "{{ url_for('forma-pagamento') }}"; // Redireciona para a página de forma de pagamento
+            }
+        }
+    </script>
 </head>
 
-<body>
+<body onload="verificarPedidos()">
     <nav>
         <img src="../assets/images/logonoveburguerbar.png" alt="Logotipo da Nove Burguerbar">
         <ul>
 
             <li><a href="/">Home</a></li>
+            <li><a href="logout">Sair</a></li>
+            {% if session.logged_in and session.is_employee %}
             <li><a href="alterar-cardapio">Editar Cardápio</a></li>
-            <li><a href="status-pedido">Pedidos</a></li>
+            {% endif %}
 
         </ul>
     </nav>
     <main>
 
         <div class="conteiner-main">
-            <li class="pedido"><a href="lanche" name="pedido"style="list-style: none; text-decoration: none; color: black;" >Lanches</a></li>
-            <li class="pedido"><a href="bebidas" name="pedido" style="list-style: none; text-decoration: none; color: black;">Bebidas</a></li>
-            <li class="pedido"><a href="porcoes" name="pedido" style="list-style: none; text-decoration: none; color: black;">Porções</a></li>
+            <a href="lanche" class="pedido" name="pedido"style="list-style: none; text-decoration: none; color: black;" >Lanches</a>
+            <a class="pedido" href="bebidas" name="pedido" style="list-style: none; text-decoration: none; color: black; ">Bebidas</a></li>
+            <a href="porcoes" name="pedido" style="list-style: none; text-decoration: none; color: black;" class="pedido">Porções</a>
         </div>
 
     </main>
 
     <div class="conteiner-section">
-        <button class="cancelar" type="submit"><a href="/" style="list-style: none; text-decoration: none; color: black;">Cancelar</a></button>
-        <button class="confirmar" type="submit"><a href="" style="list-style: none; text-decoration: none; color: black;">Confirmar</a></button>
+        <a href="/" style="list-style: none; text-decoration: none; color: black;" class="cancelar">Cancelar</a>
+        <button class="confirmar" type="button" disabled onclick="redirecionarParaFormaPagamento()">Confirmar</button>
     </div>
 
 </body>

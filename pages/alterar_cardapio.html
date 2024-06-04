@@ -17,8 +17,10 @@
             <img src="../assets/images/logonoveburguerbar.png" alt="Logotipo da Nove Burguerbar">
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="alterar-cardapio">Editar Cardapio</a></li>
-                <li><a href="status-pedido">Pedidos</a></li>
+                <li><a href="logout">Sair</a></li>
+                {% if session.logged_in and session.is_employee %}
+                <li><a href="alterar-cardapio">Editar Cardápio</a></li>
+                {% endif %}
 
             </ul>
         </nav>
@@ -32,9 +34,9 @@
                         <p>Classificação</p>
                     </label>
                     <select id="escolha" name="escolha">
-                        <option value="opcao1">Lanche</option>
-                        <option value="opcao2">Bebidas</option>
-                        <option value="opcao3">Porções</option>
+                        <option value="lanche">Lanche</option>
+                        <option value="bebidas">Bebidas</option>
+                        <option value="porcoes">Porções</option>
                     </select>
                 </div>
                 <div class="conteudo">
@@ -54,12 +56,10 @@
         </main>
         <section>
             <div class="container-section">
-                <button class="voltar">Voltar</button>
-                <button class="cancelar">Cancelar</button>
+                <a class="voltar" href="/">Voltar</a>
                 <button class="confirmar" type="submit">Confirmar</button>
             </div>
         </section>
-        <script src="/assets/scripts/logout.js"></script>
     </form>
 </body>
 

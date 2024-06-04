@@ -19,8 +19,10 @@
         <ul>
 
             <li><a href="/">Home</a></li>
-            <li><a href="alterar-cardapio">Editar Cardapio</a></li>
-            <li><a href="status-pedido">Pedidos</a></li>
+            <li><a href="logout">Sair</a></li>
+            {% if session.logged_in and session.is_employee %}
+            <li><a href="alterar-cardapio">Editar Cardápio</a></li>
+            {% endif %}
 
         </ul>
     </nav>
@@ -28,8 +30,8 @@
         <div class="conteiner">
             <div class="caixa">
                 <p>Informações salvas com sucesso!</p>
-                <button class="inicio" type="submit" >Ok</button>
-                <button class="inicio" type="submit">Início</button>
+                <a class="inicio" href="alterar-cardapio" >Ok</a>
+                <a class="inicio" href="/">Início</a>
             </div>
         </div>
     </main>

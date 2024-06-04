@@ -21,8 +21,10 @@
         <ul>
 
             <li><a href="/">Home</a></li>
-            <li><a href="alterar-cardapio">Editar Cardapio</a></li>
-            <li><a href="status-pedido">Pedidos</a></li>
+            <li><a href="logout">Sair</a></li>
+            {% if session.logged_in and session.is_employee %}
+            <li><a href="alterar-cardapio">Editar Cardápio</a></li>
+            {% endif %}
 
         </ul>
     </nav>
@@ -31,10 +33,13 @@
 
         <div id="conteiner">
             <div class="caixa1">
-
-                <button class="pedido"><a href="status-pedido">Pedidos</a></button>
+                {% if session.logged_in and session.is_employee %}
+                <button class="pedido" style="margin-top: 60px;"><a href="status-pedido">Pedidos</a></button>
+                {% endif %}
                 <button class="pedido"><a href="cardapio">Realizar pedidos</a></button>
-
+                {% if session.logged_in and not session.is_employee %}
+                <button class="pedido"><a href="termos-uso">Verificar Termos</a></button>
+                {% endif %}
             </div>
 
         </div>

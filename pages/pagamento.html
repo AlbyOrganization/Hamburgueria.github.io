@@ -10,12 +10,15 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/nav.css">
 </head>
 <body>
+    <form action="forma-pagamento" method="POST">
     <nav>
         <img src="../assets/images/logonoveburguerbar.png" alt="Logotipo da Nove Burguerbar">
         <ul>
             <li><a href="/">Home</a></li>
+            <li><a href="logout">Sair</a></li>
+            {% if session.logged_in and session.is_employee %}
             <li><a href="alterar-cardapio">Editar Cardápio</a></li>
-            <li><a href="status-pedido">Pedidos</a></li>
+            {% endif %}
         </ul>
     </nav>
 
@@ -33,12 +36,12 @@
             </div>
             <div class="caixa-qtd">
                 {% for pedido in pedidos %}
-                <p>{{ pedido.valTotal }}</p>
+                <p>{{ pedido.quantidades }}</p>
                 {% endfor %}
             </div>
             <div class="caixa-preco">
                 {% for pedido in pedidos %}
-                <p>{{ pedido.valTotal }}</p>
+                <p>{{ pedido.preco }}</p>
                 {% endfor %}
             </div>
         </div>
@@ -50,9 +53,10 @@
     </main>
     
     <div class="conteiner-section">
-        <button class="voltar"><p>Voltar</p></button>
-        <button class="cancelar"><p>Cancelar</p></button>
-        <button class="confirmar"><p>Pagar</p></button>
+        <a class="voltar" href="forma-pagamento" style="list-style: none; text-decoration: none; color: black;">Voltar</a>
+        <a class="cancelar" href="/" style="list-style: none;text-decoration: none; color: black;">Cancelar</a>
+        <button class="confirmar" type="submit">Pagar</button>
     </div>
+    </form>
 </body>
 </html>

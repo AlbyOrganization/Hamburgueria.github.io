@@ -7,19 +7,23 @@
     <title>Forma de Pagamento</title>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link rel="stylesheet" href="../assets/css/forma_de_pagamento.css">
+        <link rel="shortcut icon" href="../assets/images/favicon_io (3)/favicon-32x32.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="../assets/css/nav.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/forma_de_pagamento.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/botoes.css">
-    <link rel="shortcut icon" href="../assets/images/favicon_io (3)/favicon-32x32.png" type="image/x-icon">
 </head>
 
 <body>
+    <form method="POST" action="{{ url_for('forma_pagamento') }}">
     <nav>
-        <img src="../assets/images/logonoveburguerbar.png" alt="Logotipo da Nove Burguerbar">
+        <img src="../assets/images/logonoveburguerbar.png" alt="Logotipo da Nove Burguerbar" loading="lazy">
         <ul>
 
             <li><a href="/">Home</a></li>
-            <li><a href="cardapio">Cardapio</a></li>
-            <li><a href="status-pedido">Pedidos</a></li>
+            <li><a href="logout">Sair</a></li>
+            {% if session.logged_in and session.is_employee %}
+            <li><a href="alterar-cardapio">Editar Cardápio</a></li>
+            {% endif %}
 
         </ul>
     </nav>
@@ -28,22 +32,30 @@
             <h1>Forma de Pagamento</h1>
         </div>
         <div class="cartao1">
-            <button class="item1">
-                <p>Pix</p>
-            </button>
-            <button class="item1">
-                <p>Cartão de Débito</p>
-            </button>
+            <input class="item1" type="radio" name="formaPagamento" value="pix">
+            <label for="pix">Pix</label><br>
+            <input class="item1" type="radio" name="formaPagamento" value="debito">
+            <label for="debito">Cartão de Débito</label><br>
+            <div style="display: flex; justify-content: center; align-items: center; margin: 10px;">
+            <label for="tipoEntrega" style="margin-right: 20px; font-size: 30px;">
+                <p>Tipo de Entrega:</p>
+            </label>
+            <select name="tipoEntrega" style="font-size: large;">
+                <option value="presencial">Presencial</option>
+                <option value="delivery">Delivery</option>
+            </select>
+        </div>
         </div>
 
     </main>
 
     <section>
         <div class="conteiner1">
-            <button class="cancelar">Cancelar</button>
-            <button class="confirmar">Confirmar</button>
+            <a class="cancelar" href="/" style="list-style: none; text-decoration: none; color: black;">Cancelar</a>
+            <button class="confirmar" type="submit">Confirmar</button>
         </div>
     </section>
+    </form>
 </body>
 
 </html>
